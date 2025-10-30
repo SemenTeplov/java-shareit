@@ -1,11 +1,11 @@
-package ru.practicum.shareit.booking.dto;
+package ru.practicum.shareit.booking.model;
 
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
-public class BookingDto {
+public class Booking {
     private Long id;
     private LocalDate date;
     private Boolean isBooking;
