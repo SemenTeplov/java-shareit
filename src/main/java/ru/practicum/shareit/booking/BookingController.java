@@ -1,5 +1,7 @@
 package ru.practicum.shareit.booking;
 
+import jakarta.validation.Valid;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +22,7 @@ public class BookingController {
     }
 
     @PostMapping
-    public BookingDto create(@RequestBody BookingDto bookingDto) {
+    public BookingDto create(@Valid @RequestBody BookingDto bookingDto) {
         log.info("Поступил запрос на добавление заказа {}", bookingDto);
         return service.create(bookingDto);
     }

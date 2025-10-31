@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 
 import ru.practicum.shareit.booking.dao.DaoBookingRepository;
 import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.mapper.BookingMapper;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -17,26 +19,26 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDto create(BookingDto bookingDto) {
-        return repository.create(bookingDto);
+        return BookingMapper.dtoMapper(repository.create(BookingMapper.bookingMapper(bookingDto)));
     }
 
     @Override
     public BookingDto update(Long bookingId, BookingDto bookingDto) {
-        return repository.update(bookingId, bookingDto);
+        return BookingMapper.dtoMapper(repository.update(bookingId, BookingMapper.bookingMapper(bookingDto)));
     }
 
     @Override
     public Collection<BookingDto> getAll() {
-        return repository.getAll();
+        return repository.getAll().stream().map(BookingMapper::dtoMapper).collect(Collectors.toSet());
     }
 
     @Override
     public BookingDto get(Long bookingId) {
-        return repository.get(bookingId);
+        return BookingMapper.dtoMapper(repository.get(bookingId));
     }
 
     @Override
     public BookingDto delete(Long bookingId) {
-        return repository.delete(bookingId);
+        return BookingMapper.dtoMapper(repository.delete(bookingId));
     }
 }

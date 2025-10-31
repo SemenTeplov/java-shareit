@@ -2,19 +2,19 @@ package ru.practicum.shareit.booking.dao;
 
 import org.springframework.stereotype.Repository;
 
-import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.model.Booking;
 
 import java.util.Collection;
 
 @Repository
 public interface DaoBookingRepository {
-    BookingDto create(BookingDto bookingDto);
+    Booking create(Booking booking);
 
-    BookingDto update(Long bookingId, BookingDto bookingDto);
+    Booking update(Long bookingId, Booking originBooking);
 
-    Collection<BookingDto> getAll();
+    Collection<Booking> getAll();
 
-    BookingDto get(Long bookingId);
+    Booking get(Long bookingId);
 
-    BookingDto delete(Long bookingId);
+    Booking delete(Long bookingId);
 }

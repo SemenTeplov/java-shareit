@@ -1,5 +1,7 @@
 package ru.practicum.shareit.request;
 
+import jakarta.validation.Valid;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +22,7 @@ public class ItemRequestController {
     }
 
     @PostMapping
-    public ItemRequestDto create(@RequestBody ItemRequestDto itemRequestDto) {
+    public ItemRequestDto create(@Valid @RequestBody ItemRequestDto itemRequestDto) {
         log.info("Поступил запрос на добавление запроса {}", itemRequestDto);
         return service.create(itemRequestDto);
     }

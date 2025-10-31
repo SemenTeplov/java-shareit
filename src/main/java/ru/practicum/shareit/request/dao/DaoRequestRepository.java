@@ -2,19 +2,19 @@ package ru.practicum.shareit.request.dao;
 
 import org.springframework.stereotype.Repository;
 
-import ru.practicum.shareit.request.dto.ItemRequestDto;
+import ru.practicum.shareit.request.model.ItemRequest;
 
 import java.util.Collection;
 
 @Repository
 public interface DaoRequestRepository {
-    ItemRequestDto create(ItemRequestDto itemRequestDto);
+    ItemRequest create(ItemRequest itemRequest);
 
-    ItemRequestDto update(Long itemId, ItemRequestDto itemRequestDto);
+    ItemRequest update(Long itemId, ItemRequest itemRequest);
 
-    Collection<ItemRequestDto> getAll();
+    Collection<ItemRequest> getAll();
 
-    ItemRequestDto get(Long itemId);
+    ItemRequest get(Long itemId);
 
-    ItemRequestDto delete(Long itemId);
+    ItemRequest delete(Long itemId);
 }

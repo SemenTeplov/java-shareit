@@ -2,19 +2,19 @@ package ru.practicum.shareit.user.dao;
 
 import org.springframework.stereotype.Repository;
 
-import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.model.User;
 
 import java.util.Collection;
 
 @Repository
 public interface DaoUserRepository {
-    UserDto create(UserDto userDto);
+    User create(User user);
 
-    UserDto update(Long userId, UserDto userDto);
+    User update(Long userId, User user);
 
-    Collection<UserDto> getAll();
+    Collection<User> getAll();
 
-    UserDto get(Long userId);
+    User get(Long userId);
 
-    UserDto delete(Long userId);
+    User delete(Long userId);
 }

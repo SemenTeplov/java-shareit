@@ -2,21 +2,21 @@ package ru.practicum.shareit.item.dao;
 
 import org.springframework.stereotype.Repository;
 
-import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.model.Item;
 
 import java.util.Collection;
 
 @Repository
 public interface DaoItemRepository {
-    ItemDto create(ItemDto itemDto, Long userId);
+    Item create(Item item, Long userId);
 
-    ItemDto update(Long itemId, ItemDto itemDto, Long userId);
+    Item update(Long itemId, Item item, Long userId);
 
-    Collection<ItemDto> getAll(Long userId);
+    Collection<Item> getAll(Long userId);
 
-    ItemDto get(Long itemId);
+    Item get(Long itemId);
 
-    Collection<ItemDto> search(String text);
+    Collection<Item> search(String text);
 
-    ItemDto delete(Long itemId);
+    Item delete(Long itemId);
 }
