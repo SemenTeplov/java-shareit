@@ -88,7 +88,7 @@ public class BookingServiceImpl implements BookingService {
 
     public Collection<BookingDto> getByState(Long userId, String state) {
         return repository.getByState(userId).stream()
-                .filter(b ->state.equals("ALL") || b.getStatus().equals(Status.valueOf(state)))
+                .filter(b -> state.equals("ALL") || b.getStatus().equals(Status.valueOf(state)))
                 .map(b -> BookingMapper.dtoMapper(b, userService.get(b.getBookerId()), itemService.get(b.getItemId())))
                 .collect(Collectors.toSet());
     }
