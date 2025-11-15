@@ -2,19 +2,24 @@ package ru.practicum.shareit.booking.service;
 
 import org.springframework.stereotype.Service;
 
+import ru.practicum.shareit.booking.dto.BookingDataDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
 
 import java.util.Collection;
 
 @Service
 public interface BookingService {
-    BookingDto create(BookingDto bookingDto);
+    BookingDto create(BookingDataDto bookingDataDto, Long userId);
 
-    BookingDto update(Long bookingId, BookingDto bookingDto);
+    BookingDto update(Long bookingId, Long userId, Boolean approved);
 
-    Collection<BookingDto> getAll();
+    BookingDto get(Long bookingId, Long userId, String state);
 
-    BookingDto get(Long bookingId);
+    Collection<BookingDto> getAll(String state, Long userId);
+
+    Collection<BookingDto> getByState(Long userId, String state);
+
+    Collection<BookingDto> getByOwner(Long ownerId, String state);
 
     BookingDto delete(Long bookingId);
 }

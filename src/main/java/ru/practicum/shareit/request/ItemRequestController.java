@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import ru.practicum.shareit.request.dto.ItemRequestDto;
@@ -17,6 +18,7 @@ import java.util.Collection;
 public class ItemRequestController {
     private final RequestService service;
 
+    @Autowired
     public ItemRequestController(RequestService service) {
         this.service = service;
     }

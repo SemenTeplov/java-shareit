@@ -4,9 +4,12 @@ import jakarta.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.service.ItemService;
 
 import java.util.Collection;
@@ -17,14 +20,21 @@ import java.util.Collection;
 public class ItemController {
     private final ItemService itemService;
 
+    @Autowired
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 
     @PostMapping
     public ItemDto create(@Valid @RequestBody ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") Long userId) {
-        log.info("Поступил запрос на добавление элемента {}", itemDto);
+        log.info("Поступил запрос на добавление элемента {} с хозяином {}", itemDto, userId);
         return itemService.create(itemDto, userId);
+    }
+
+    @PostMapping("/{itemId}/comment")
+    public CommentDto addComment(@PathVariable Long itemId, @RequestBody Comment comment, @RequestHeader("X-Sharer-User-Id") Long userId) {
+        log.info("Поступил запрос на добавление комментария {}, для инструмента {} пользователем {}", comment, itemId, userId);
+        return itemService.addComment(itemId, comment, userId);
     }
 
     @PatchMapping("/{itemId}")
