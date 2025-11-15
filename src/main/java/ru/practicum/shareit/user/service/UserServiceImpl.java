@@ -1,18 +1,23 @@
 package ru.practicum.shareit.user.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.dao.DaoUserRepository;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
+import ru.practicum.shareit.user.model.User;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final DaoUserRepository repository;
 
+    @Autowired
     public UserServiceImpl(DaoUserRepository repository) {
         this.repository = repository;
     }
@@ -23,7 +28,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Такая электронная почта уже есть ");
         }
 
-        return UserMapper.dtoMapper(repository.create(UserMapper.userMapper(userDto)));
+        return UserMapper.dtoMapper(repository.save(UserMapper.userMapper(userDto)));
     }
 
     @Override
@@ -32,25 +37,42 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Такая электронная почта уже есть ");
         }
 
-        return UserMapper.dtoMapper(repository.update(userId, UserMapper.userMapper(userDto)));
+        return UserMapper.dtoMapper(repository.save(updateUser(userDto, userId)));
     }
 
     @Override
     public Collection<UserDto> getAll() {
-        return repository.getAll().stream().map(UserMapper::dtoMapper).collect(Collectors.toSet());
+        return repository.findAll().stream().map(UserMapper::dtoMapper).collect(Collectors.toSet());
     }
 
     @Override
     public UserDto get(Long userId) {
-        return UserMapper.dtoMapper(repository.get(userId));
+        return UserMapper.dtoMapper(repository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден")));
     }
 
     @Override
     public UserDto delete(Long userId) {
-        return UserMapper.dtoMapper(repository.delete(userId));
+        Optional<User> user = repository.findById(userId);
+
+        if (user.isPresent()) {
+            repository.delete(user.get());
+
+            return UserMapper.dtoMapper(user.get());
+        }
+
+        return null;
     }
 
     private boolean isDoubleEmail(String email) {
-        return repository.getAll().stream().anyMatch(u -> u.getEmail().equals(email));
+        return repository.findAll().stream().anyMatch(u -> u.getEmail().equals(email));
+    }
+
+    private User updateUser(UserDto userDto, Long userId) {
+        User user = repository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+
+        user.setName(userDto.getName() == null ? user.getName() : userDto.getName());
+        user.setEmail(userDto.getEmail() == null ? user.getEmail() : userDto.getEmail());
+
+        return user;
     }
 }
