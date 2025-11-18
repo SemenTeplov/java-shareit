@@ -69,7 +69,6 @@ public class UserServiceImpl implements UserService {
 
     private User updateUser(UserDto userDto, Long userId) {
         User user = repository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден"));
-
         user.setName(userDto.getName() == null ? user.getName() : userDto.getName());
         user.setEmail(userDto.getEmail() == null ? user.getEmail() : userDto.getEmail());
 
