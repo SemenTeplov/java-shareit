@@ -47,7 +47,7 @@ public class UserController {
 
     @DeleteMapping("/{userId}")
     public UserDto delete(@PathVariable Long userId) {
-        log.info("Поступил запрос на удаление пользователя по идентификационному номеру {}", userId);
+        log.info("Поступил запрос на удаление пользователя по идентификационному номеру {} ", userId);
         return service.delete(userId);
     }
 }
