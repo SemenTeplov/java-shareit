@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS bookings (
     id SERIAL PRIMARY KEY,
     item_id BIGINT,
     booker_id BIGINT,
-    start DATETIME,
-    finish DATETIME,
+    start TIMESTAMP,
+    finish TIMESTAMP,
     status VARCHAR(20)
 );
 
