@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, String>> IllegalArgumentException(final NotValidationException ex) {
+    public ResponseEntity<Map<String, String>> handlIllegalArgumentException(final NotValidationException ex) {
         Map<String, String> response = new HashMap<>();
         response.put("error", "Недопустиммые значения");
         response.put("message", ex.getMessage());
