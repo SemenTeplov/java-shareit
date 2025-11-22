@@ -78,7 +78,8 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new NotFoundException("Заказ не найден"));
         userService.get(userId);
 
-        return BookingMapper.dtoMapper(booking, userService.get(booking.getBookerId()), itemService.get(booking.getItemId()));
+        return BookingMapper
+                .dtoMapper(booking, userService.get(booking.getBookerId()), itemService.get(booking.getItemId()));
     }
 
     @Override
