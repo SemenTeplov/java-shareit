@@ -69,7 +69,9 @@ public class ItemServiceImpl implements ItemService {
         comment.setAuthor(userId);
         comment.setCreated(LocalDateTime.now());
 
-        commentRepository.save(comment);
+        if (commentRepository.save(comment).getCreated().getMinute() < booking.getStart().getMinute()) {
+            throw new IllegalArgumentException("Комментирование отсутствующего заказа");
+        }
 
         return CommentMapper.dtoMapper(commentRepository.findAll().getLast(), user);
     }
