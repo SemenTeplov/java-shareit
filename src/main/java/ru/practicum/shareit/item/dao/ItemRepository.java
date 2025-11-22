@@ -10,7 +10,7 @@ import ru.practicum.shareit.item.model.Item;
 import java.util.Collection;
 
 @Repository
-public interface DaoItemRepository extends JpaRepository<Item, Long> {
+public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query(nativeQuery = true, value =
             "SELECT id, owner_id, name, description, available, comment_id " +
             "FROM items " +

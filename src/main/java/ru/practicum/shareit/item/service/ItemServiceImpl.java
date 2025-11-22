@@ -3,19 +3,19 @@ package ru.practicum.shareit.item.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ru.practicum.shareit.booking.dao.DaoBookingRepository;
+import ru.practicum.shareit.booking.dao.BookingRepository;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.Status;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.item.dao.DaoCommentRepository;
-import ru.practicum.shareit.item.dao.DaoItemRepository;
+import ru.practicum.shareit.item.dao.CommentRepository;
+import ru.practicum.shareit.item.dao.ItemRepository;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.mapper.CommentMapper;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.dao.DaoUserRepository;
+import ru.practicum.shareit.user.dao.UserRepository;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
@@ -27,16 +27,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class ItemServiceImpl implements ItemService {
-    private final DaoItemRepository repository;
-    private final DaoUserRepository userRepository;
-    private final DaoCommentRepository commentRepository;
-    private final DaoBookingRepository bookingRepository;
+    private final ItemRepository repository;
+    private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
+    private final BookingRepository bookingRepository;
 
     @Autowired
-    public ItemServiceImpl(DaoItemRepository repository,
-                           DaoUserRepository userRepository,
-                           DaoCommentRepository commentRepository,
-                           DaoBookingRepository bookingRepository) {
+    public ItemServiceImpl(ItemRepository repository,
+                           UserRepository userRepository,
+                           CommentRepository commentRepository,
+                           BookingRepository bookingRepository) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
@@ -45,7 +45,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto create(ItemDto itemDto, Long userId) {
-        userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Такого пользователя нет"));
+        userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Такого пользователя нет"));
 
         itemDto.setOwnerId(userId);
 
@@ -54,8 +55,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public CommentDto addComment(Long itemId, Comment comment, Long userId) {
-        repository.findById(itemId).orElseThrow(() -> new NotFoundException("Такого инструмента нет"));
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Такого пользователя нет"));
+        repository.findById(itemId)
+                .orElseThrow(() -> new NotFoundException("Такого инструмента нет"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Такого пользователя нет"));
 
         Booking booking = bookingRepository.getByUserAndItem(userId, itemId).stream()
                 .findFirst()
@@ -120,7 +123,8 @@ public class ItemServiceImpl implements ItemService {
 
     private Item updateItem(Long itemId, ItemDto itemDto, Long userId) {
         userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Такого пользователя нет"));
-        Item item = repository.findById(itemId).orElseThrow(() -> new NotFoundException("Такого инструмента нет"));
+        Item item = repository.findById(itemId)
+                .orElseThrow(() -> new NotFoundException("Такого инструмента нет"));
 
         item.setName(itemDto.getName() == null ? item.getName() : itemDto.getName());
         item.setDescription(itemDto.getDescription() == null ? item.getDescription() : itemDto.getDescription());

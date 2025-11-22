@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import ru.practicum.shareit.booking.dto.BookingDataDto;
@@ -19,7 +18,6 @@ import java.util.Collection;
 public class BookingController {
     private final BookingService service;
 
-    @Autowired
     public BookingController(BookingService service) {
         this.service = service;
     }
@@ -47,7 +45,7 @@ public class BookingController {
     @GetMapping()
     public Collection<BookingDto> getByState(@RequestHeader("X-Sharer-User-Id") Long userId, @RequestParam(defaultValue = "ALL") String state) {
         log.info("Поступил запрос на предоставление заказа по статусу {} и пользователем {}", state, userId);
-        return service.getByState(userId, state);
+        return service.findByBookerId(userId, state);
     }
 
     @GetMapping("/owner")

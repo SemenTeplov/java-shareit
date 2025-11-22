@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255),
-    email VARCHAR(255) NOT NULL
+    name VARCHAR(255) UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS items (
@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS items (
 
 CREATE TABLE IF NOT EXISTS bookings (
     id SERIAL PRIMARY KEY,
-    item_id BIGINT,
-    booker_id BIGINT,
+    item_id BIGINT NOT NULL,
+    booker_id BIGINT NOT NULL,
     start TIMESTAMP,
     finish TIMESTAMP,
     status VARCHAR(20)
@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS bookings (
 
 CREATE TABLE IF NOT EXISTS comments (
     id SERIAL PRIMARY KEY,
-    text VARCHAR(255),
+    text VARCHAR(255) NOT NULL,
     item BIGINT,
-    author BIGINT,
+    author BIGINT NOT NULL,
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

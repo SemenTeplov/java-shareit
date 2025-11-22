@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.user.dao.DaoUserRepository;
+import ru.practicum.shareit.user.dao.UserRepository;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final DaoUserRepository repository;
+    private final UserRepository repository;
 
     @Autowired
-    public UserServiceImpl(DaoUserRepository repository) {
+    public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
     }
 
@@ -47,7 +47,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto get(Long userId) {
-        return UserMapper.dtoMapper(repository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден")));
+        return UserMapper.dtoMapper(repository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Пользователь не найден")));
     }
 
     @Override
@@ -68,7 +69,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private User updateUser(UserDto userDto, Long userId) {
-        User user = repository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
         user.setName(userDto.getName() == null ? user.getName() : userDto.getName());
         user.setEmail(userDto.getEmail() == null ? user.getEmail() : userDto.getEmail());
 

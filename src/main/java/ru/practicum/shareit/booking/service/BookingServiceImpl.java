@@ -3,7 +3,7 @@ package ru.practicum.shareit.booking.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ru.practicum.shareit.booking.dao.DaoBookingRepository;
+import ru.practicum.shareit.booking.dao.BookingRepository;
 import ru.practicum.shareit.booking.dto.BookingDataDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
-    private final DaoBookingRepository repository;
+    private final BookingRepository repository;
     private final ItemService itemService;
     private final UserService userService;
 
     @Autowired
-    public BookingServiceImpl(DaoBookingRepository repository, ItemService itemService, UserService userService) {
+    public BookingServiceImpl(BookingRepository repository, ItemService itemService, UserService userService) {
         this.repository = repository;
         this.itemService = itemService;
         this.userService = userService;
@@ -49,7 +49,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDto update(Long bookingId, Long userId, Boolean approved) {
-        Booking booking = repository.findById(bookingId).orElseThrow(() -> new NotFoundException("Заказ не найден"));
+        Booking booking = repository.findById(bookingId)
+                .orElseThrow(() -> new NotFoundException("Заказ не найден"));
         ItemDto itemDto = itemService.get(booking.getItemId());
 
         try {
@@ -73,7 +74,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDto get(Long bookingId, Long userId, String state) {
-        Booking booking = repository.findById(bookingId).orElseThrow(() -> new NotFoundException("Заказ не найден"));
+        Booking booking = repository.findById(bookingId)
+                .orElseThrow(() -> new NotFoundException("Заказ не найден"));
         userService.get(userId);
 
         return BookingMapper.dtoMapper(booking, userService.get(booking.getBookerId()), itemService.get(booking.getItemId()));
@@ -86,17 +88,31 @@ public class BookingServiceImpl implements BookingService {
                 .collect(Collectors.toSet());
     }
 
-    public Collection<BookingDto> getByState(Long userId, String state) {
-        return repository.getByState(userId).stream()
-                .filter(b -> state.equals("ALL") || b.getStatus().equals(Status.valueOf(state)))
+    public Collection<BookingDto> findByBookerId(Long userId, String state) {
+        Collection<Booking> bookings;
+
+        if (state.equals("ALL")) {
+            bookings = repository.findAllByBookerId(userId);
+        } else {
+            bookings = repository.findByBookerId(userId, state);
+        }
+
+        return bookings.stream()
                 .map(b -> BookingMapper.dtoMapper(b, userService.get(b.getBookerId()), itemService.get(b.getItemId())))
                 .collect(Collectors.toSet());
     }
 
     public Collection<BookingDto> getByOwner(Long userId, String state) {
-        return repository.getByOwner(userId).stream()
+        Collection<Booking> bookings;
+
+        if (state.equals("ALL")) {
+            bookings = repository.getAllByOwner(userId);
+        } else {
+            bookings = repository.getByOwner(userId, state);
+        }
+
+        return bookings.stream()
                 .map(b -> BookingMapper.dtoMapper(b, userService.get(b.getBookerId()), itemService.get(b.getItemId())))
-                .filter(b -> state.equals("ALL") || b.getStatus().equals(Status.valueOf(state)))
                 .collect(Collectors.toSet());
     }
 

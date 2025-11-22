@@ -10,7 +10,7 @@ import ru.practicum.shareit.item.model.Comment;
 import java.util.List;
 
 @Repository
-public interface DaoCommentRepository extends JpaRepository<Comment, Long> {
+public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query(nativeQuery = true, value =
         "SELECT * " +
         "FROM comments " +

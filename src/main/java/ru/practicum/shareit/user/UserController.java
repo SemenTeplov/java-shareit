@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import ru.practicum.shareit.user.dto.UserDto;
@@ -18,7 +17,6 @@ import java.util.Collection;
 public class UserController {
     private final UserService service;
 
-    @Autowired
     public UserController(UserService service) {
         this.service = service;
     }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.request.dao.DaoRequestRepository;
+import ru.practicum.shareit.request.dao.RequestRepository;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.mapper.ItemRequestMapper;
 import ru.practicum.shareit.request.model.ItemRequest;
@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class RequestServiceImpl implements RequestService {
-    private final DaoRequestRepository repository;
+    private final RequestRepository repository;
 
     @Autowired
-    public RequestServiceImpl(DaoRequestRepository repository) {
+    public RequestServiceImpl(RequestRepository repository) {
         this.repository = repository;
     }
 
@@ -28,7 +28,8 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public ItemRequestDto update(Long itemId, ItemRequestDto itemRequestDto) {
-        repository.findById(itemId).orElseThrow(() -> new NotFoundException("Реквест не найден"));
+        repository.findById(itemId)
+                .orElseThrow(() -> new NotFoundException("Реквест не найден"));
 
         itemRequestDto.setId(itemId);
 
@@ -42,7 +43,8 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public ItemRequestDto get(Long itemId) {
-        return ItemRequestMapper.dtoMapper(repository.findById(itemId).orElseThrow(() -> new NotFoundException("Реквест не найден")));
+        return ItemRequestMapper.dtoMapper(repository.findById(itemId)
+                .orElseThrow(() -> new NotFoundException("Реквест не найден")));
     }
 
     @Override
