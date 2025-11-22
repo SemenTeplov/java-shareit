@@ -41,6 +41,7 @@ public class BookingServiceImpl implements BookingService {
         }
 
         Booking booking = BookingMapper.bookingMapper(bookingDataDto);
+
         booking.setBookerId(userId);
         booking.setStatus(Status.WAITING);
 
@@ -69,7 +70,8 @@ public class BookingServiceImpl implements BookingService {
             throw new IllegalArgumentException("Изменение статуса запрещено");
         }
 
-        return BookingMapper.dtoMapper(repository.save(booking), userService.get(booking.getBookerId()), itemService.get(booking.getItemId()));
+        return BookingMapper
+                .dtoMapper(repository.save(booking), userService.get(booking.getBookerId()), itemService.get(booking.getItemId()));
     }
 
     @Override

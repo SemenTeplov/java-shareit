@@ -14,14 +14,14 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query(nativeQuery = true, value =
             "SELECT id, item_id, booker_id, start, finish, status " +
             "FROM bookings " +
-            "WHERE booker_id = :userId AND status = 'ALL'" +
+            "WHERE booker_id = :userId " +
             "ORDER BY start")
     Collection<Booking> findAllByBookerId(@Param("userId") Long userId);
 
     @Query(nativeQuery = true, value =
             "SELECT id, item_id, booker_id, start, finish, status " +
                     "FROM bookings " +
-                    "WHERE booker_id = :userId AND status = :status" +
+                    "WHERE booker_id = :userId AND status = :status " +
                     "ORDER BY start")
     Collection<Booking> findByBookerId(@Param("userId") Long userId,@Param("status") String status);
 
@@ -29,7 +29,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "SELECT bookings.id AS id, item_id, booker_id, start, finish, status " +
             "FROM bookings " +
             "JOIN items ON items.id = item_id" +
-            "WHERE items.owner_id = :ownerId AND status = 'ALL'" +
+            "WHERE items.owner_id = :ownerId " +
             "ORDER BY start")
     Collection<Booking> getAllByOwner(@Param("ownerId") Long ownerId);
 
@@ -37,7 +37,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "SELECT bookings.id AS id, item_id, booker_id, start, finish, status " +
                     "FROM bookings " +
                     "JOIN items ON items.id = item_id" +
-                    "WHERE items.owner_id = :ownerId AND status = :status" +
+                    "WHERE items.owner_id = :ownerId AND status = :status " +
                     "ORDER BY start")
     Collection<Booking> getByOwner(@Param("ownerId") Long ownerId, @Param("status") String status);
 
