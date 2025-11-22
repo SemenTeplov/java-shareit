@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS items (
     id SERIAL PRIMARY KEY,
     owner_id BIGINT,
+    comment_id BIGINT,
     name VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
     available BOOLEAN NOT NULL
