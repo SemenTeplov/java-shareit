@@ -18,6 +18,7 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.dao.DaoUserRepository;
 import ru.practicum.shareit.user.model.User;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -66,6 +67,7 @@ public class ItemServiceImpl implements ItemService {
 
         comment.setItem(itemId);
         comment.setAuthor(userId);
+        comment.setCreated(LocalDateTime.now());
 
         commentRepository.save(comment);
 
