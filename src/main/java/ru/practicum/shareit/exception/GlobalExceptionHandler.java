@@ -28,6 +28,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handlIllegalArgumentException(final NotValidationException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", "Недопустиммые значения");
+        response.put("message", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
     public ResponseEntity<Map<String, String>> handleValidation(final Exception ex) {
         Map<String, String> response = new HashMap<>();
         response.put("error", "Ошибка");

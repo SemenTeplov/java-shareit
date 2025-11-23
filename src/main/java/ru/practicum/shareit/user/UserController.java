@@ -29,7 +29,7 @@ public class UserController {
 
     @PatchMapping("{userId}")
     public UserDto update(@PathVariable Long userId, @RequestBody UserDto userDto) {
-        log.info("Поступил запрос на обновление пользователя по идентификационному номеру {}", userId);
+        log.info("Поступил запрос на обновление пользователя по идентификационному номеру {} {}", userId, userDto);
         return service.update(userId, userDto);
     }
 
