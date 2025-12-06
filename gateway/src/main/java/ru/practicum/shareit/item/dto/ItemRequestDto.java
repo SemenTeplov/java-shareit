@@ -17,7 +17,7 @@ public class ItemRequestDto {
     @NotBlank(message = "Должно быть указано описание")
     private String description;
 
-    private Long comment_id;
+    private Long commentId;
 
     @NotNull(message = "Должен быть указан доступ")
     private Boolean  available;
