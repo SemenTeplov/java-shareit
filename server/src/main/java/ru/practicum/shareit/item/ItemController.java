@@ -1,7 +1,9 @@
 package ru.practicum.shareit.item;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import ru.practicum.shareit.item.dto.CommentDto;
@@ -11,12 +13,13 @@ import ru.practicum.shareit.item.service.ItemService;
 
 import java.util.Collection;
 
-@Slf4j
 @RestController
 @RequestMapping("/items")
 public class ItemController {
+    private static final Logger log = LoggerFactory.getLogger(ItemController.class);
     private final ItemService itemService;
 
+    @Autowired
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }

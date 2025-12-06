@@ -2,9 +2,10 @@ package ru.practicum.shareit.item;
 
 import jakarta.validation.Valid;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -13,13 +14,17 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.CommentRequestDto;
 import ru.practicum.shareit.item.dto.ItemRequestDto;
 
-@Slf4j
 @Validated
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/items")
 public class ItemController {
+    private static final Logger log = LoggerFactory.getLogger(ItemController.class);
     private final ItemClient client;
+
+    @Autowired
+    public ItemController(ItemClient client) {
+        this.client = client;
+    }
 
     @PostMapping
     public ResponseEntity<Object> create(@Valid @RequestBody ItemRequestDto itemRequestDto,

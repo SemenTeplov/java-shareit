@@ -1,7 +1,9 @@
 package ru.practicum.shareit.request;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import ru.practicum.shareit.request.dto.ItemRequestDto;
@@ -9,12 +11,13 @@ import ru.practicum.shareit.request.service.RequestService;
 
 import java.util.Collection;
 
-@Slf4j
 @RestController
 @RequestMapping(path = "/requests")
 public class ItemRequestController {
+    private static final Logger log = LoggerFactory.getLogger(ItemRequestController.class);
     private final RequestService service;
 
+    @Autowired
     public ItemRequestController(RequestService service) {
         this.service = service;
     }

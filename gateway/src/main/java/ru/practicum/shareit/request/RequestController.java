@@ -2,22 +2,28 @@ package ru.practicum.shareit.request;
 
 import jakarta.validation.Valid;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import ru.practicum.shareit.request.dto.RequestItemRequestDto;
 
-@Slf4j
 @Validated
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/requests")
 public class RequestController {
+    private static final Logger log = LoggerFactory.getLogger(RequestController.class);
     private final RequestClient client;
+
+    @Autowired
+    public RequestController(RequestClient client) {
+        this.client = client;
+    }
 
     @PostMapping
     public ResponseEntity<Object> create(@Valid @RequestBody RequestItemRequestDto itemRequestDto,

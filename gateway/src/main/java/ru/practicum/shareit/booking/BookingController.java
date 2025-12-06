@@ -1,25 +1,29 @@
 package ru.practicum.shareit.booking;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import jakarta.validation.Valid;
 
 import ru.practicum.shareit.booking.dto.BookItemRequestDto;
 
-
 @Controller
 @RequestMapping(path = "/bookings")
-@RequiredArgsConstructor
-@Slf4j
 @Validated
 public class BookingController {
+	private static final Logger log = LoggerFactory.getLogger(BookingController.class);
 	private final BookingClient bookingClient;
+
+	@Autowired
+	public BookingController(BookingClient bookingClient) {
+		this.bookingClient = bookingClient;
+	}
 
 	@PostMapping
 	public ResponseEntity<Object> bookItem(@RequestHeader("X-Sharer-User-Id") long userId,
