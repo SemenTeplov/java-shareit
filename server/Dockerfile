@@ -1,5 +1,6 @@
 FROM eclipse-temurin:21-jre-jammy
-VOLUME /tmp
-ARG JAR_FILE=target/*.jar
+WORKDIR /app
 COPY target/shareit-server-0.0.1-SNAPSHOT.jar app.jar
-ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar /app.jar"]
+RUN jar tf app.jar | grep -q BOOT-INF/ || \
+    (echo "Error: Not a valid Spring Boot jar!" && exit 1)
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
