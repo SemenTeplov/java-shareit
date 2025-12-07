@@ -1,4 +1,4 @@
-package java.ru.practicum.shareit;
+package ru.practicum.shareit;
 
 import ru.practicum.shareit.booking.dto.BookingDataDto;
 import ru.practicum.shareit.booking.model.Booking;
