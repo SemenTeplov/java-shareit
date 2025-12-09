@@ -19,6 +19,8 @@ public class ItemRequestDto {
 
     private Long commentId;
 
+    private Long requestId;
+
     @NotNull(message = "Должен быть указан доступ")
     private Boolean  available;
 }

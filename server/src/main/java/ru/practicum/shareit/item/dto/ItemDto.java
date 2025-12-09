@@ -15,6 +15,7 @@ import java.util.List;
 public class ItemDto {
     private Long id;
     private Long ownerId;
+    private Long requestId;
 
     @NotBlank(message = "Должно быть указано название")
     private String name;
