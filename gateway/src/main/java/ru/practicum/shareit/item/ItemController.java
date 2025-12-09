@@ -27,7 +27,7 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody ItemRequestDto itemRequestDto,
+    public ResponseEntity<Object> create(@Valid @RequestBody(required = false) ItemRequestDto itemRequestDto,
                                          @RequestHeader("X-Sharer-User-Id") Long userId) {
         log.info("Поступил запрос на добавление элемента {} с хозяином {}", itemRequestDto, userId);
 
