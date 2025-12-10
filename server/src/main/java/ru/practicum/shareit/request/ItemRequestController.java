@@ -25,7 +25,7 @@ public class ItemRequestController {
     @PostMapping
     public ItemRequestDto create(@RequestBody ItemRequestDto itemRequestDto,
                                  @RequestHeader("X-Sharer-User-Id") Long userId) {
-        log.info("Поступил запрос на добавление запроса {}", itemRequestDto);
+        log.info("Поступил запрос на добавление запроса {} пользователем {}", itemRequestDto, userId);
 
         return service.create(itemRequestDto, userId);
     }

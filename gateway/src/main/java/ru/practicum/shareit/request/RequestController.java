@@ -1,5 +1,7 @@
 package ru.practicum.shareit.request;
 
+import jakarta.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,9 +26,9 @@ public class RequestController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@RequestBody RequestItemRequestDto request,
+    public ResponseEntity<Object> create(@RequestBody @Valid RequestItemRequestDto request,
                                          @RequestHeader("X-Sharer-User-Id") Long userId) {
-        log.info("Поступил запрос на добавление запроса {}", request);
+        log.info("Поступил запрос на добавление запроса {} пользователем {}", request, userId);
 
         return client.create(request, userId);
     }

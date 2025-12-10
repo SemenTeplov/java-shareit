@@ -10,7 +10,7 @@ public class ItemRequestMapper {
         ItemRequestDto itemRequestDto = new ItemRequestDto();
 
         itemRequestDto.setId(itemRequest.getId());
-        itemRequestDto.setRequest(itemRequest.getRequest());
+        itemRequestDto.setDescription(itemRequest.getRequest());
         itemRequestDto.setCreateDate(itemRequest.getCreateDate());
         itemRequestDto.setItem(new ItemForRequestDto(item));
 
@@ -21,7 +21,7 @@ public class ItemRequestMapper {
         ItemRequest itemRequest = new ItemRequest();
 
         itemRequest.setId(itemRequestDto.getId());
-        itemRequest.setRequest(itemRequestDto.getRequest());
+        itemRequest.setRequest(itemRequestDto.getDescription());
         itemRequest.setCreateDate(itemRequestDto.getCreateDate());
         itemRequest.setItemId(itemRequestDto.getItem().getId());
 
