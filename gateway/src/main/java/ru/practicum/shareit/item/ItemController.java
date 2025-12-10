@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.Valid;
 
 import org.slf4j.Logger;
@@ -27,7 +28,8 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody(required = false) ItemRequestDto itemRequestDto,
+    @JsonIgnoreProperties({"requestId"})
+    public ResponseEntity<Object> create(@Valid @RequestBody ItemRequestDto itemRequestDto,
                                          @RequestHeader("X-Sharer-User-Id") Long userId) {
         log.info("Поступил запрос на добавление элемента {} с хозяином {}", itemRequestDto, userId);
 

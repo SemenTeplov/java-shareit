@@ -26,11 +26,11 @@ public class RequestController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody RequestItemRequestDto itemRequestDto,
+    public ResponseEntity<Object> create(@RequestBody RequestItemRequestDto request,
                                          @RequestHeader("X-Sharer-User-Id") Long userId) {
-        log.info("Поступил запрос на добавление запроса {}", itemRequestDto);
+        log.info("Поступил запрос на добавление запроса {}", request);
 
-        return client.create(itemRequestDto, userId);
+        return client.create(request, userId);
     }
 
     @PatchMapping("/{itemId}")

@@ -51,20 +51,20 @@ public class BaseClient {
         return makeAndSendRequest(HttpMethod.PUT, path, userId, parameters, body);
     }
 
+    protected <T> ResponseEntity<Object> patch(String path, Long userId, Map<String, Object> parameters, T body) {
+        return makeAndSendRequest(HttpMethod.PATCH, path, userId, parameters, body);
+    }
+
+    protected <T> ResponseEntity<Object> patchWithId(String path, long userId) {
+        return patch(path, userId, null, null);
+    }
+
     protected <T> ResponseEntity<Object> patch(String path, T body) {
         return patch(path, null, null, body);
     }
 
-    protected <T> ResponseEntity<Object> patch(String path, long userId) {
-        return patch(path, userId, null, null);
-    }
-
     protected <T> ResponseEntity<Object> patch(String path, long userId, T body) {
         return patch(path, userId, null, body);
-    }
-
-    protected <T> ResponseEntity<Object> patch(String path, Long userId, @Nullable Map<String, Object> parameters, T body) {
-        return makeAndSendRequest(HttpMethod.PATCH, path, userId, parameters, body);
     }
 
     protected ResponseEntity<Object> delete(String path) {
