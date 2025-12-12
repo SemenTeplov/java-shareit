@@ -21,6 +21,9 @@ public class Item {
     @Column(name = "owner_id")
     private Long ownerId;
 
+    @Column(name = "request_id")
+    private Long requestId;
+
     @Column(name = "name")
     @NotBlank(message = "Должно быть указано название")
     private String name;

@@ -109,6 +109,17 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public Collection<ItemDto> searchByRequestId(Long id) {
+        if (id == null) {
+            return Set.of();
+        }
+
+        return repository.searchByRequestId(id).stream()
+                .map(ItemMapper::dtoMapper)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
     public ItemDto delete(Long itemId) {
         Optional<Item> item = repository.findById(itemId);
 

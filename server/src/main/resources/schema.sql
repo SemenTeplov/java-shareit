@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS items (
     id SERIAL PRIMARY KEY,
     owner_id BIGINT,
     comment_id BIGINT,
+    request_id BIGINT,
     name VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
     available BOOLEAN NOT NULL
@@ -34,5 +35,5 @@ CREATE TABLE IF NOT EXISTS requests (
     id SERIAL PRIMARY KEY,
     request VARCHAR(255),
     create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    item_id BIGINT NOT NULL
+    user_id BIGINT NOT NULL
 );

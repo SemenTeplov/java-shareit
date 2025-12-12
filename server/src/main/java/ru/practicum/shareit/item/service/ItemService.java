@@ -22,5 +22,7 @@ public interface ItemService {
 
     Collection<ItemDto> search(String text);
 
+    Collection<ItemDto> searchByRequestId(Long id);
+
     ItemDto delete(Long itemId);
 }

@@ -22,8 +22,8 @@ public class ItemRequest {
     private String request;
 
     @Column(name = "create_date")
-    private LocalDateTime createDate;
+    private LocalDateTime created;
 
-    @Column(name = "item_id")
-    private Long itemId;
+    @Column(name = "user_id")
+    private Long userId;
 }
