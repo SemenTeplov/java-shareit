@@ -91,9 +91,9 @@ public class RequestServiceImpl implements RequestService {
                 .collect(Collectors.toMap(UserDto::getId, u -> u));
 
         return collection.stream()
-                .map(i -> ItemRequestMapper
-                        .dtoMapper(i, users.get(i.getUserId())))
-                .peek(i -> i.setItems(items.stream().filter(e -> e.getRequestId().equals(i.getId()))
+                .map(i -> ItemRequestMapper.dtoMapper(i, users.get(i.getUserId())))
+                .peek(i -> i.setItems(items.stream()
+                        .filter(e -> e.getRequestId() != null && e.getRequestId().equals(i.getId()))
                         .map(item -> new AnswerDto(item.getId(), item.getOwnerId(), item.getName())).toList()))
                 .collect(Collectors.toSet());
     }
