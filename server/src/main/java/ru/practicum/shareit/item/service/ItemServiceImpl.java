@@ -92,6 +92,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public Collection<ItemDto> getAll() {
+        return repository.findAll().stream()
+                .map(i -> getItemWithComments(ItemMapper.dtoMapper(i)))
+                .collect(Collectors.toSet());
+    }
+
+    @Override
     public ItemDto get(Long itemId) {
         return getItemWithComments(ItemMapper
                 .dtoMapper(repository.findById(itemId).orElseThrow(() -> new NotFoundException("Такого предмета нет"))));

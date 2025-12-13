@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ru.practicum.shareit.exception.NotFoundException;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.request.dao.RequestRepository;
 import ru.practicum.shareit.request.dto.AnswerDto;
@@ -11,10 +12,13 @@ import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.mapper.ItemRequestMapper;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.dao.UserRepository;
+import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class RequestServiceImpl implements RequestService {
@@ -50,24 +54,12 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public Collection<ItemRequestDto> getAllForUser(Long userId) {
-        return repository.getAllForUser(userId).stream()
-                .map(i -> ItemRequestMapper
-                        .dtoMapper(i, UserMapper.dtoMapper(userRepository.findById(i.getUserId()).get())))
-                .peek(i -> i.setItems(itemService
-                        .searchByRequestId(i.getId()).stream()
-                        .map(item -> new AnswerDto(item.getId(), item.getOwnerId(), item.getName())).toList()))
-                .collect(Collectors.toSet());
+        return getItemRequestDtoCollection(repository.getAllForUser(userId));
     }
 
     @Override
     public Collection<ItemRequestDto> getAllForOtherUsers(Long userId) {
-        return repository.getAllForOtherUsers(userId).stream()
-                .map(i -> ItemRequestMapper
-                        .dtoMapper(i, UserMapper.dtoMapper(userRepository.findById(i.getUserId()).get())))
-                .peek(i -> i.setItems(itemService
-                        .searchByRequestId(i.getId()).stream()
-                        .map(item -> new AnswerDto(item.getId(), item.getOwnerId(), item.getName())).toList()))
-                .collect(Collectors.toSet());
+        return getItemRequestDtoCollection(repository.getAllForOtherUsers(userId));
     }
 
     @Override
@@ -90,5 +82,19 @@ public class RequestServiceImpl implements RequestService {
             ItemRequest request = repository.findById(itemId).get();
             repository.delete(request);
         }
+    }
+
+    private Collection<ItemRequestDto> getItemRequestDtoCollection(Collection<ItemRequest> collection) {
+        Collection<ItemDto> items = itemService.getAll();
+        Map<Long, UserDto> users = userRepository.findAll().stream()
+                .map(UserMapper::dtoMapper)
+                .collect(Collectors.toMap(UserDto::getId, u -> u));
+
+        return collection.stream()
+                .map(i -> ItemRequestMapper
+                        .dtoMapper(i, users.get(i.getUserId())))
+                .peek(i -> i.setItems(items.stream().filter(e -> e.getRequestId().equals(i.getId()))
+                        .map(item -> new AnswerDto(item.getId(), item.getOwnerId(), item.getName())).toList()))
+                .collect(Collectors.toSet());
     }
 }

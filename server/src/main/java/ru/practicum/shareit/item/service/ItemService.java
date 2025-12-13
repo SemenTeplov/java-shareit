@@ -18,6 +18,8 @@ public interface ItemService {
 
     Collection<ItemDto> getAll(Long userId);
 
+    Collection<ItemDto> getAll();
+
     ItemDto get(Long itemId);
 
     Collection<ItemDto> search(String text);
