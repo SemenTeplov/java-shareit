@@ -1,0 +1,39 @@
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS items (
+    id SERIAL PRIMARY KEY,
+    owner_id BIGINT,
+    comment_id BIGINT,
+    request_id BIGINT,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    available BOOLEAN NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS bookings (
+    id SERIAL PRIMARY KEY,
+    item_id BIGINT NOT NULL,
+    booker_id BIGINT NOT NULL,
+    start TIMESTAMP,
+    finish TIMESTAMP,
+    status VARCHAR(20)
+);
+
+CREATE TABLE IF NOT EXISTS comments (
+    id SERIAL PRIMARY KEY,
+    text VARCHAR(255) NOT NULL,
+    item BIGINT,
+    author BIGINT NOT NULL,
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS requests (
+    id SERIAL PRIMARY KEY,
+    request VARCHAR(255),
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_id BIGINT NOT NULL
+);
